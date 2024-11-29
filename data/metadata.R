@@ -1,0 +1,22 @@
+df_dicc <- tibble::tribble(
+  ~Column.name,                                                                                         ~Description,
+  "City",                                                                                      "C40 city name",
+  "Reporting year",                                                         "Year in which the target is being reported",
+  "Year of target implementation",                                  "The year in which the target was formally implemented in the city",
+  "Target scope",                                                                 "Scope of target as reported by CDP",
+  "Target type",                                                                    "Target type as reported by CDP:",
+  "Target type",  "Base year emissions: Targets which are measured relative to actual emissions in a given base year",
+  "Target type",         "Baseline scenario: Targets which are measured relative to an emissions scenario (e.g. BAU)",
+  "Target type",             "Fixed level: Targets which are independent of a baseline (e.g. 100% reduction by 2050)",
+  "Base year", "The year in which base emissions are measured (essential for targets of type base year emissions).",
+  "Target year",                   "The year in which the target emissions are measured (essential for all targets).",
+  "Base unit", "The unit in which base emissions are measured (essential for targets of type base year emissions).",
+  "Base value",                                                         "The base emissions value. Simply a number.",
+  "Scenario unit",               "The unit in which scenario emissions are measured (essential for baseline scenario).",
+  "Scenario value",                                                     "The scenario emissions value. Simply a number.",
+  "Reduction unit",                         "The unit in which the emissions reduction value to the target is measured.",
+  "Reduction value",                                                    "The emissions reduction value. Simply a number.",
+  "Target unit",                                          "The unit in which the emissions target value is measured.",
+  "Target value",                                                       "The emissions target value. Simply a number.",
+  "Source",                                                      "The data source for the target (e.g. CDP 7.1)"
+)

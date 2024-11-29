@@ -1,0 +1,57 @@
+---
+title: "Target Tracker"
+output:
+  flexdashboard::flex_dashboard:
+    theme:
+      bootswatch: minty
+      navbar-bg: "black"
+      navbar-padding-x: 1rem
+      navbar-padding-y: .5rem
+    logo: style/img/c40_logo_45x.svg    
+    css: style/style_dashboard.css
+    #css: style/minty_bootstrap.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+options(scipen = 999)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+library(here)
+
+tool_v <- "1.0"
+
+# Libraries
+source(here("R/00_librerias.R"))
+
+# Data extraction
+source(here("R/01_extraer.R"))
+
+# Data Transformation
+source(here("R/02_transformar.R"))
+
+# Dash Styling
+#source(here("etl/99_style.R"))
+
+# Dash filters
+source(here("R/03_filtros.R"))
+```
+
+
+
+```{r page-About, child='doc_pages/page_about.Rmd', eval=FALSE}
+```
+
+```{r page-ghg_targets, child='doc_pages/page-resumen.Rmd', eval=TRUE}
+```
+
+```{r page-ghg_summary, child='doc_pages/page_summary.Rmd', eval=FALSE}
+```
+
+```{r page-98_export, child='doc_pages/page-98_export.Rmd', eval=FALSE}
+```
+
+```{r page-99_guidance, child='doc_pages/page-99_guidance.Rmd', eval=FALSE}
+```

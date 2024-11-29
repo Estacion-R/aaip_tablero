@@ -1,0 +1,40 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+GHG targets
+===================================== 
+
+Row
+-------------------------------------
+
+
+    
+```{r}
+tabla <- armar_tabla(shared_df_transparencia)
+
+page_fillable(
+  card(
+    card_header("Transparencia"),
+    layout_sidebar(
+      fillable = TRUE, 
+      sidebar = sidebar(
+        title = "Filters",
+        #bg = c40_colors("green"),
+        width = "15%",
+        class = "fw-bold font-monospace",
+        filtro_so
+      ),
+      tabla,
+      tagList(
+            tags$button(class = "download-button",
+              tagList(fontawesome::fa("download"), "Download as CSV"),
+              onclick = "Reactable.downloadDataCSV('targets-table', 'city-targets.csv')")
+          )
+    )
+  )
+)
+```

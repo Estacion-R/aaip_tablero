@@ -1,0 +1,59 @@
+
+
+Sobre el índice de transparencia
+=====================================
+
+```{r}
+last_update <- value_box(
+    title = "Last tool update",
+    #height = 50,fill = FALSE,
+    value = lubridate::today(),
+    full_screen = TRUE,
+    theme = "success"
+  )
+
+tool_version <- value_box(
+    title = "Tool version",
+    #height = 50,fill = FALSE,
+    value = tool_v,
+    full_screen = TRUE,
+    theme = "success"
+  )
+
+
+
+page_fillable(
+  h1("About the Tool"),
+  br(),
+  p(
+    markdown(
+    "
+This tool provides C40 members **city-wide GHG emission reduction targets**.
+
+The purpose of this tool is to better disseminate this information throughout C40, to support colleagues in their work to communicate the ambition of cities within C40.
+
+For now, it is an internal only resource, so please do not share the tool itself further. However, the data within it, i.e. the city targets, is public, from the city’s reporting to CDP or as part of their CAP.
+
+The dataset underlying this information is maintained by the CAP team. It is updated once a year, to reflect the CDP reporting cycles. All the city targets will be taken from either the city’s CAP when approved by C40, or from their CDP reporting. 
+
+For most cities, the source of the data will be their CDP reporting. Where a city's CDP disclosure does not reflect their CAP targets, perhaps due to errors in reporting, the data will have been collected by C40 during the city's CAP review.
+
+For further guidance that explains some of the technical terminology, please see the _**Guidance and glossary**_ tab. 
+
+For insights about C40 city’s emission inventories, please see the GPC dashboard  [here](https://www.c40knowledgehub.org/s/article/C40-cities-greenhouse-gas-emissions-interactive-dashboard?language=en_US).
+
+<br> 
+
+#### Contact.
+
+- **CAPI team:** rgreen@c40.org 
+- **BPR-Analytics team:** ptiscornia@c40.org
+
+- Information is **internal** for C40 organization only
+
+"
+  )
+)
+)
+```
+
