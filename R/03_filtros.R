@@ -13,13 +13,13 @@ filtro_so <- filter_select(
   sharedData = shared_df_transparencia,
   group = ~ sujeto_obligado
 )
-# 
-# country_filter <- filter_select(
-#   id = "country",
-#   label = "Country",
-#   sharedData = shared_df_targets,
-#   group = ~ country
-# )
+
+filtro_tipo_so <- filter_select(
+  id = "tipo_so",
+  label = "Tipo de Sujeto Obligado",
+  sharedData = shared_df_transparencia,
+  group = ~ tipo_de_so
+  )
 # 
 # region_filter <- filter_select(
 #   id = "region",

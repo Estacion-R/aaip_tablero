@@ -15,7 +15,7 @@ xfun::Rscript_call(
     )
 )
 
-# 
+ 
 # library(magick)
 # logo <- image_read("style/img/c40_logo.svg")
 # logo_scaled <- image_scale(logo,'45x')

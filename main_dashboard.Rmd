@@ -1,13 +1,13 @@
 ---
-title: "Target Tracker"
+title: "Puntaje Índice de Transparencia - AAIP"
 output:
   flexdashboard::flex_dashboard:
     theme:
       bootswatch: minty
-      navbar-bg: "black"
+      navbar-bg: "#008585"
       navbar-padding-x: 1rem
       navbar-padding-y: .5rem
-    logo: style/img/c40_logo_45x.svg    
+    logo: style/img/logo_AAIP.png 
     css: style/style_dashboard.css
     #css: style/minty_bootstrap.css
 ---
@@ -37,6 +37,9 @@ source(here("R/02_transformar.R"))
 
 # Dash filters
 source(here("R/03_filtros.R"))
+
+# Corro gráficos
+source(here("R/04-graficos.R"))
 ```
 
 
@@ -47,6 +50,10 @@ source(here("R/03_filtros.R"))
 ```{r page-ghg_targets, child='doc_pages/page-resumen.Rmd', eval=TRUE}
 ```
 
+```{r page-tipo_transp, child='doc_pages/page-por_tipo_transparencia.Rmd', eval=TRUE}
+```
+
+
 ```{r page-ghg_summary, child='doc_pages/page_summary.Rmd', eval=FALSE}
 ```
 
@@ -54,4 +61,7 @@ source(here("R/03_filtros.R"))
 ```
 
 ```{r page-99_guidance, child='doc_pages/page-99_guidance.Rmd', eval=FALSE}
+```
+
+```{r page-99_info, child='doc_pages/page_info.Rmd', eval=TRUE}
 ```

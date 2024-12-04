@@ -12,7 +12,8 @@ source(here("R/02_transformar.R"))
 df <- df_transparencia
 
 reactable(
-  df,
+  df %>% 
+    relocate(it, .after = sujeto_obligado),
   defaultColDef = colDef(
     na = '-', 
     align = "left",
@@ -37,6 +38,24 @@ reactable(
                      #style = sticky_style,
                      #headerStyle = sticky_style
                      ),
+    it = colDef(name = "Índice de Transparencia",
+                cell = data_bars(df, 
+                                 text_position = "above",
+                                 number_fmt = scales::number,
+                                 max_value = 100, 
+                                 background = "lightgrey")),
+    ta = colDef(name = "Transparencia Activa",
+                cell = data_bars(df, 
+                                 text_position = "above",
+                                 number_fmt = scales::number,
+                                 max_value = 100, 
+                                 background = "lightgrey")),
+    tp = colDef(name = "Transparencia Proactiva",
+                cell = data_bars(df, 
+                                 text_position = "above",
+                                 number_fmt = scales::number,
+                                 max_value = 100, 
+                                 background = "lightgrey"))
     # ta = colDef(name = "Transparencia Activa",
     #             #minWidth = values,
     #             #format = colFormat(separators = TRUE, digits = 0),
@@ -45,36 +64,36 @@ reactable(
     #             show = TRUE),
     # it = colDef(name = "Índice de Transparencia", 
     #             show = TRUE)
-    ta = colDef(name = "Transparencia Activa",
-                cell = gauge_chart(tooltip = TRUE,
-                                   data = df,
-                                   fill_color = c('#D7191C','#FDAE61','#FFFFBF','#A6D96A','#1A9641'),
-                                   background = 'grey',
-                                   bold_text = TRUE,
-                                   text_size = 13,
-                                   show_min_max = TRUE
-                )
-    ),
-    tp = colDef(name = "Transparencia Proactiva",
-                cell = gauge_chart(tooltip = TRUE,
-                                   data = df,
-                                   fill_color = c('#D7191C','#FDAE61','#FFFFBF','#A6D96A','#1A9641'),
-                                   background = 'grey',
-                                   bold_text = TRUE,
-                                   text_size = 13,
-                                   show_min_max = TRUE
-                )
-    ),
-    it = colDef(name = "Índice de Transparencia",
-                cell = gauge_chart(tooltip = TRUE,
-                                   data = df,
-                                   fill_color = c('#D7191C','#FDAE61','#FFFFBF','#A6D96A','#1A9641'),
-                                   background = 'grey',
-                                   bold_text = TRUE,
-                                   text_size = 13,
-                                   show_min_max = TRUE
-                )
-    )
+    # ta = colDef(name = "Transparencia Activa",
+    #             cell = gauge_chart(tooltip = TRUE,
+    #                                data = df,
+    #                                fill_color = c('#D7191C','#FDAE61','#FFFFBF','#A6D96A','#1A9641'),
+    #                                background = 'grey',
+    #                                bold_text = TRUE,
+    #                                text_size = 13,
+    #                                show_min_max = TRUE
+    #             )
+    # ),
+    # tp = colDef(name = "Transparencia Proactiva",
+    #             cell = gauge_chart(tooltip = TRUE,
+    #                                data = df,
+    #                                fill_color = c('#D7191C','#FDAE61','#FFFFBF','#A6D96A','#1A9641'),
+    #                                background = 'grey',
+    #                                bold_text = TRUE,
+    #                                text_size = 13,
+    #                                show_min_max = TRUE
+    #             )
+    # ),
+    # it = colDef(name = "Índice de Transparencia",
+    #             cell = gauge_chart(tooltip = TRUE,
+    #                                data = df,
+    #                                fill_color = c('#D7191C','#FDAE61','#FFFFBF','#A6D96A','#1A9641'),
+    #                                background = 'grey',
+    #                                bold_text = TRUE,
+    #                                text_size = 13,
+    #                                show_min_max = TRUE
+    #             )
+    # )
   ),
   # Estilo de la tabla
   style = list(fontFamily = "Roboto", fontSize = "0.875rem"),
