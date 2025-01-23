@@ -1,5 +1,5 @@
 ---
-title: "Puntaje Índice de Transparencia - AAIP"
+title: "Índice de Transparencia - AAIP"
 output:
   flexdashboard::flex_dashboard:
     theme:
@@ -7,9 +7,8 @@ output:
       navbar-bg: "#008585"
       navbar-padding-x: 1rem
       navbar-padding-y: .5rem
-    logo: style/img/logo_AAIP.png 
-    css: style/style_dashboard.css
-    #css: style/minty_bootstrap.css
+    logo: estilo/img/logoAAIP.svg
+    css: estilo/estilo_tablero.css
 ---
 
 ```{r setup, include=FALSE}
@@ -32,8 +31,8 @@ source(here("R/01_extraer.R"))
 # Data Transformation
 source(here("R/02_transformar.R"))
 
-# Dash Styling
-#source(here("etl/99_style.R"))
+# Colores y estilo organizacional
+source(here("R/99-manual_estilo.R"))
 
 # Dash filters
 source(here("R/03_filtros.R"))
@@ -50,7 +49,7 @@ source(here("R/04-graficos.R"))
 ```{r page-ghg_targets, child='doc_pages/page-resumen.Rmd', eval=TRUE}
 ```
 
-```{r page-tipo_transp, child='doc_pages/page-por_tipo_transparencia.Rmd', eval=TRUE}
+```{r page-tipo_transp, child='doc_pages/page-por_tipo_transparencia.Rmd', eval=FALSE}
 ```
 
 

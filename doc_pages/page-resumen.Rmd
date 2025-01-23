@@ -5,80 +5,44 @@ editor_options:
 ---
 
 
-Panel General
+Índice de Transparencia
 ===================================== 
-
 
 Row
 -------------------------------------
 
 
 ```{r}
-tabla <- armar_tabla(shared_df_transparencia)
+source(here("doc_pages/modulos/mod_tarjeta_global.R"))
+source(here("doc_pages/modulos/mod_tabla_general.R"))
+source(here("doc_pages/modulos/mod_serie_tiempo.R"))
+
 
 page_fluid(
-  #h2("Resultado global del índice - 2° trimestre 2024"),
-
-  # Primera fila: Texto a la izquierda y gráficos a la derecha
-  #layout_column_wrap(
-    #width = 1,
-    card(
-      card_header(h2("Resultado global del índice - 2° trimestre 2024")),
-      height = 450,  # Define the height for the container,
-      card_body(
-        layout_column_wrap(
-          width = 1/2,
-          card(
-            !!!vbs
-          )
-          ,
-          # tags$div(
-          #   br(),
-          #   p("Puntaje promedio del índice y sus subíndices del total de los 210 organismos monitoreados"),
-          #   br(),
-          #   p(tags$a("Conocé más sobre el Índice de Transparencia",
-          #            href = "https://www.argentina.gob.ar/indice-de-transparencia", 
-          #            target = "_blank",  # Abre el enlace en una nueva pestaña
-          #            style = "text-decoration: none; color: blue;")),
-          #   br()
-          # ),
-          
-          tags$div(
-            style = "display: flex; justify-content: center; align-items: center; height: 100%;",
-            tags$img(
-              src = "output_graficos/viz_tot.png",  # Path to the PNG file
-              style = "max-width: 80%; height: auto;"  # Ensure responsive scaling
-            )
-          )
-        )
-      )
-    #)
-  ),
-  
-  # Segunda fila: Tabla y barra lateral
-  layout_column_wrap(
-    width = 1,  # La tabla ocupa toda la fila
-    card(
-      card_header("Transparencia"),
-      layout_sidebar(
-        fillable = TRUE, 
-        sidebar = sidebar(
-          title = "Filters",
-          width = "25%",
-          class = "fw-bold font-monospace",
-          filtro_so,
-          filtro_tipo_so
-        ),
-        tabla,  # Aquí va la tabla principal
-        tagList(
-          tags$button(class = "download-button",
-                      tagList(fontawesome::fa("download"), "Download as CSV"),
-                      onclick = "Reactable.downloadDataCSV('targets-table', 'city-targets.csv')")
-        )
-      )
-    )
+  navset_card_underline(
+    nav_panel("Por sujeto obligado",
+              layout_column_wrap(
+                width = 1,  # La tabla ocupa toda la fila
+                tarjeta_x_so
+              )
+    ),
+    
+    nav_panel("Por dimensión"
+              
+    ),
+    
+    nav_panel("Resultado global",
+              height = 450,  # Define the height for the container,
+              #source("../R/modulos/m2024_trim_1.R")
+              tarjeta_global_trim1
+    ),
+    
+    nav_panel("Evolución en el tiempo",
+              layout_column_wrap(
+                width = 1,  # La tabla ocupa toda la fila
+                tarjeta_serie_tiempo
+              ))
   )
 )
-
 
 ```

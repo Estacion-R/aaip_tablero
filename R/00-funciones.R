@@ -4,7 +4,7 @@ format_nmb <- function(value){
   return(value)
 }
 
-armar_tabla <- function(df){
+armar_tabla <- function(df, tabla_nro){
   reactable(
     df,
     defaultColDef = colDef(
@@ -16,6 +16,11 @@ armar_tabla <- function(df){
     ),
     columns = list(
       periodo = colDef(show = FALSE),
+      periodo_tot = colDef(show = FALSE),
+      periodo_anio = colDef(name = "Año",
+                            width = 60),
+      periodo_mes = colDef(name = "Trimestre", 
+                           width = 60),
       sujeto_obligado = colDef(name = "Sujeto Obligado",
                                cell = function(value, index) {
                                  tipo_de_so <- df$data()$tipo_de_so[index]
@@ -35,22 +40,25 @@ armar_tabla <- function(df){
                                    text_position = "above",
                                    number_fmt = scales::number,
                                    max_value = 100, 
-                                   fill_color = "#28af8c",
-                                   background = "#a8a8a7")),
+                                   bar_height = 25,
+                                   fill_color = color_violeta,
+                                   background = "lightgrey")),
       ta = colDef(name = "Transparencia Activa",
                   cell = data_bars(df$data(), 
                                    text_position = "above",
                                    number_fmt = scales::number,
                                    max_value = 100, 
-                                   fill_color = "#28af8c",
-                                   background = "#a8a8a7")),
+                                   bar_height = 10,
+                                   fill_color = color_magenta,
+                                   background = "lightgrey")),
       tp = colDef(name = "Transparencia Proactiva",
                   cell = data_bars(df$data(), 
                                    text_position = "above",
                                    number_fmt = scales::number,
                                    max_value = 100, 
-                                   fill_color = "#28af8c",
-                                   background = "#a8a8a7"))
+                                   bar_height = 10,
+                                   fill_color = color_celeste,
+                                   background = "lightgrey"))
     ),
     # Estilo de la tabla
     style = list(fontFamily = "Roboto", fontSize = "0.875rem"),
@@ -60,8 +68,7 @@ armar_tabla <- function(df){
     highlight = TRUE,
     outlined = TRUE,
     wrap = TRUE,
-    defaultSortOrder = "desc",
-    defaultSorted = "it",
+    defaultSorted = list(it = "desc", ta = "desc", tp = "desc", tipo_de_so = "asc", sujeto_obligado = "asc"),
     filterable = FALSE,
     showPageSizeOptions = TRUE,
     theme = reactableTheme(
@@ -70,7 +77,7 @@ armar_tabla <- function(df){
         "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
         borderColor = "#555")
     ),
-    elementId = "indice-tabla"
+    elementId = glue::glue("indice-tabla-{tabla_nro}")
   )
 }
 

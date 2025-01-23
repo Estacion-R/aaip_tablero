@@ -3,14 +3,14 @@
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##                              Run the Dashboard                           ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-tool_v <- "1.0"
+tool_v <- "0.1.9999"
 
 xfun::Rscript_call(
   rmarkdown::render,
   list(
     input = 'main_dashboard.Rmd', 
        #output_format = 'flex_dashboard',
-       output_file = glue::glue(' Puntaje Índice de Transparencia - AAIP - {tool_v}.html'),
+       output_file = glue::glue('Índice de Transparencia - AAIP - {tool_v}.html'),
        output_dir = 'output_dashboard'
     )
 )

@@ -5,7 +5,7 @@ editor_options:
 ---
 
 
-Panel General
+Página 2
 ===================================== 
 
 
@@ -14,47 +14,17 @@ Row
 
 
 ```{r}
-tabla <- armar_tabla(shared_df_transparencia)
+#grafico_1 <- 
+df_transparencia_x_tipo_trab %>% 
+  filter(periodo == df_transparencia_x_tipo_trab$periodo[1]) %>% 
+  filter(sujeto_obligado == df_transparencia_x_tipo_trab$sujeto_obligado[2]) %>% 
+  ggplot(aes(x = value, y = sujeto_obligado)) +
+  geom_col(aes(fill = name)) +
+  theme_minimal()
+
 
 page_fluid(
-  #h2("Resultado global del índice - 2° trimestre 2024"),
 
-  # Primera fila: Texto a la izquierda y gráficos a la derecha
-  #layout_column_wrap(
-    #width = 1,
-    card(
-      card_header(h2("Resultado global del índice - 2° trimestre 2024")),
-      height = 450,  # Define the height for the container,
-      card_body(
-        layout_column_wrap(
-          width = 1/2,
-          card(
-            !!!vbs
-          )
-          ,
-          # tags$div(
-          #   br(),
-          #   p("Puntaje promedio del índice y sus subíndices del total de los 210 organismos monitoreados"),
-          #   br(),
-          #   p(tags$a("Conocé más sobre el Índice de Transparencia",
-          #            href = "https://www.argentina.gob.ar/indice-de-transparencia", 
-          #            target = "_blank",  # Abre el enlace en una nueva pestaña
-          #            style = "text-decoration: none; color: blue;")),
-          #   br()
-          # ),
-          
-          tags$div(
-            style = "display: flex; justify-content: center; align-items: center; height: 100%;",
-            tags$img(
-              src = "output_graficos/viz_tot.png",  # Path to the PNG file
-              style = "max-width: 80%; height: auto;"  # Ensure responsive scaling
-            )
-          )
-        )
-      )
-    #)
-  ),
-  
   # Segunda fila: Tabla y barra lateral
   layout_column_wrap(
     width = 1,  # La tabla ocupa toda la fila

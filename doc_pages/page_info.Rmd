@@ -1,6 +1,6 @@
 
 
-Sobre el índice de transparencia
+Sobre el índice
 =====================================
 
 ```{r}
