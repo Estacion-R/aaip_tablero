@@ -4,8 +4,9 @@
 ##                                ghg_targets                               ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+################################# Filtros Por Sujeto Obligado #################################
 # Filtro por anio
-filtro_anio <- filter_select(
+filtro_x_so_anio <- filter_select(
   id = "anio",
   label = "Año",
   sharedData = shared_df_transparencia,
@@ -14,7 +15,7 @@ filtro_anio <- filter_select(
 )
 
 # Filtro por trimestre
-filtro_trim <- filter_select(
+filtro_x_so_trim <- filter_select(
   id = "trim",
   label = "Trimestre",
   sharedData = shared_df_transparencia,
@@ -24,7 +25,7 @@ filtro_trim <- filter_select(
 
 
 # Filtro por sujeto obligado
-filtro_so <- filter_select(
+filtro_x_so_so <- filter_select(
   id = "so",
   label = "Sujeto Obligado",
   sharedData = shared_df_transparencia,
@@ -32,7 +33,7 @@ filtro_so <- filter_select(
   allLevels = FALSE
 )
 
-filtro_tipo_so <- filter_select(
+filtro_x_so_tipo_so <- filter_select(
   id = "tipo_so",
   label = "Tipo de Sujeto Obligado",
   sharedData = shared_df_transparencia,
@@ -41,4 +42,25 @@ filtro_tipo_so <- filter_select(
   )
 
 
+################################# Filtros Por dimensión #################################
 
+
+# Filtro por sujeto obligado
+filtro_x_dim_so <- filter_select(
+  id = "so",
+  label = "Sujeto Obligado",
+  sharedData = shared_df_transparencia_x_dim, 
+  multiple = FALSE,
+  group = ~ sujeto_obligado,
+  allLevels = FALSE
+)
+
+# Filtro por dimension
+filtro_x_dim_tipo_transparencia <- filter_select(
+  id = "tipo_transp",
+  label = "Tipo de Transparencia",
+  sharedData = shared_df_transparencia_x_dim, 
+  multiple = FALSE,
+  group = ~ tipo_transparencia,
+  allLevels = FALSE
+)

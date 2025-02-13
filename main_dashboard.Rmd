@@ -1,12 +1,12 @@
 ---
-title: "Índice de Transparencia - AAIP"
+title: "Índice de Transparencia"
 output:
   flexdashboard::flex_dashboard:
     theme:
       bootswatch: minty
       navbar-bg: "#008585"
       navbar-padding-x: 1rem
-      navbar-padding-y: .5rem
+      navbar-padding-y: 0.2rem  # Reduce padding
     logo: estilo/img/logoAAIP.svg
     css: estilo/estilo_tablero.css
 ---

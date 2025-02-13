@@ -5,7 +5,7 @@ editor_options:
 ---
 
 
-Índice de Transparencia
+Resultados
 ===================================== 
 
 Row
@@ -16,33 +16,40 @@ Row
 source(here("doc_pages/modulos/mod_tarjeta_global.R"))
 source(here("doc_pages/modulos/mod_tabla_general.R"))
 source(here("doc_pages/modulos/mod_serie_tiempo.R"))
+source(here("doc_pages/modulos/mod_tabla_x_dimension.R"))
 
 
 page_fluid(
-  navset_card_underline(
+  navset_card_tab(
+    full_screen = FALSE,  # Evita que el panel esté encerrado en una tarjeta
+    
+    nav_panel("Resultado global",
+              height = 450,
+              tarjeta_global_trim1
+    ),
+    
     nav_panel("Por sujeto obligado",
               layout_column_wrap(
-                width = 1,  # La tabla ocupa toda la fila
+                width = 1,
                 tarjeta_x_so
               )
     ),
     
-    nav_panel("Por dimensión"
-              
-    ),
-    
-    nav_panel("Resultado global",
-              height = 450,  # Define the height for the container,
-              #source("../R/modulos/m2024_trim_1.R")
-              tarjeta_global_trim1
+    nav_panel("Por dimensión",
+              layout_column_wrap(
+                width = 1,
+                tarjeta_x_dim
+              )
     ),
     
     nav_panel("Evolución en el tiempo",
               layout_column_wrap(
-                width = 1,  # La tabla ocupa toda la fila
+                width = 1,
                 tarjeta_serie_tiempo
               ))
   )
 )
+
+
 
 ```

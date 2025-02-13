@@ -1,0 +1,94 @@
+---
+title: "Índice de Transparencia - AAIP"
+output:
+  html_document:
+    theme: 
+      version: 5
+      bootswatch: minty
+    css: "estilo/estilo_tablero.css"
+    logo: estilo/img/logoAAIP.svg
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+options(scipen = 999)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+library(here)
+
+tool_v <- "0.999999"
+
+# Librerías utilizadas
+source(here("R/00_librerias.R"))
+
+# Lectura de base de datos
+source(here("R/01_extraer.R"))
+
+# Limpieza y preparación de la base de datos
+source(here("R/02_transformar.R"))
+
+# Colores y estilo organizacional
+source(here("R/99-manual_estilo.R"))
+
+# Filtros
+source(here("R/03_filtros.R"))
+
+# Gráficos
+source(here("R/04-graficos.R"))
+
+### Recursos del Tablero
+source(here("doc_pages/modulos/mod_tarjeta_global.R"))
+source(here("doc_pages/modulos/mod_tabla_general.R"))
+source(here("doc_pages/modulos/mod_serie_tiempo.R"))
+source(here("doc_pages/modulos/mod_tabla_x_dimension.R"))
+```
+
+
+```{r}
+page_navbar(
+  title = "Índice de Transparencia",
+  
+  nav_panel(
+    "Resultados",
+    div(
+      class = "container-fluid",
+      
+    navset_card_tab(
+    full_screen = FALSE,  # Evita que el panel esté encerrado en una tarjeta
+    
+    nav_panel("Resultado global",
+              height = 450,
+              tarjeta_global_trim1
+    ),
+    
+    nav_panel("Por sujeto obligado",
+              layout_column_wrap(
+                width = 1,
+                tarjeta_x_so
+              )
+    ),
+    
+    nav_panel("Por dimensión",
+              layout_column_wrap(
+                width = 1,
+                tarjeta_x_dim
+              )
+    ),
+    
+    nav_panel("Evolución en el tiempo",
+              layout_column_wrap(
+                width = 1,
+                tarjeta_serie_tiempo
+              ))
+  )
+    )
+),
+
+nav_panel("Metodología")
+)
+
+```
+

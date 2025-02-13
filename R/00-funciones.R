@@ -4,7 +4,7 @@ format_nmb <- function(value){
   return(value)
 }
 
-armar_tabla <- function(df, tabla_nro){
+armar_tabla_x_so <- function(df, tabla_nro){
   reactable(
     df,
     defaultColDef = colDef(
@@ -12,7 +12,7 @@ armar_tabla <- function(df, tabla_nro){
       align = "left",
       vAlign = 'center',
       style = list(fontSize = '0.7rem'),
-      headerStyle = list(fontSize = '1rem')
+      headerStyle = list(fontSize = '0.9rem')
     ),
     columns = list(
       periodo = colDef(show = FALSE),
@@ -69,6 +69,69 @@ armar_tabla <- function(df, tabla_nro){
     outlined = TRUE,
     wrap = TRUE,
     defaultSorted = list(it = "desc", ta = "desc", tp = "desc", tipo_de_so = "asc", sujeto_obligado = "asc"),
+    filterable = FALSE,
+    showPageSizeOptions = TRUE,
+    theme = reactableTheme(
+      headerStyle = list(
+        "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
+        "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
+        borderColor = "#555")
+    ),
+    elementId = glue::glue("indice-tabla-{tabla_nro}")
+  )
+}
+
+
+armar_tabla_x_dimension <- function(df, tabla_nro){
+  reactable(
+    df,
+    defaultColDef = colDef(
+      na = '-', 
+      align = "left",
+      vAlign = 'center',
+      style = list(fontSize = '0.7rem'),
+      headerStyle = list(fontSize = '0.9rem')
+    ),
+    columns = list(
+      periodo = colDef(show = FALSE),
+      periodo_tot = colDef(show = FALSE),
+      periodo_anio = colDef(name = "Año",
+                            width = 60),
+      periodo_mes = colDef(name = "Trimestre", 
+                           width = 60),
+      sujeto_obligado = colDef(name = "Sujeto Obligado",
+                               cell = function(value, index) {
+                                 tipo_de_so <- df$data()$tipo_de_so[index]
+                                 #tipo_de_so <- df$tipo_de_so[index]
+                                 div(div(style = "font-size: 0.8rem;font-weight: 600", value),
+                                     div(style = "font-size: 0.7rem;color:grey", tipo_de_so))}
+      ),
+      tipo_de_so = colDef(name = "Tipo de Sujeto Obligado", 
+                          show = FALSE,
+                          #minWidth = names,
+                          sticky = "left",
+                          #style = sticky_style,
+                          #headerStyle = sticky_style
+      ),
+      dimension_nombre = colDef(name = "Dimensión"),
+      dimension_valor = colDef(name = "Puntaje",
+                               cell = data_bars(df$data(), 
+                                                text_position = "above",
+                                                number_fmt = scales::number,
+                                                max_value = 1, 
+                                                bar_height = 10,
+                                                fill_color = color_magenta,
+                                                background = "lightgrey"))
+    ),
+    # Estilo de la tabla
+    style = list(fontFamily = "Roboto", fontSize = "0.875rem"),
+    borderless = TRUE,
+    striped = FALSE,
+    bordered = FALSE,
+    highlight = TRUE,
+    outlined = TRUE,
+    wrap = TRUE,
+    defaultSorted = list(dimension_nombre = "asc"),
     filterable = FALSE,
     showPageSizeOptions = TRUE,
     theme = reactableTheme(

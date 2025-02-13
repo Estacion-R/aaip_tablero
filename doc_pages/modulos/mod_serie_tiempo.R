@@ -6,24 +6,28 @@ library(crosstalk)
 library(htmltools)
 library(bslib)
 
-
 # Datos de ejemplo con dos trimestres
 df_transparencia_serie <- df_transparencia %>% 
   mutate(periodo_abreviado = paste0(periodo_anio, " - T", periodo_mes))
 
 # Transformar los datos para apilar `ta` y `tp`
 df_long <- df_transparencia_serie %>%
-  pivot_longer(cols = c(ta, tp), names_to = "tipo_indice", values_to = "valor")
-
+  pivot_longer(cols = c(ta, tp), names_to = "tipo_indice", values_to = "valor") %>% 
+  mutate(
+    tipo_indice = factor(tipo_indice, levels = c("tp", "ta"),
+                         labels = c("Transparencia Proactiva", "Transparencia Activa"))
+  )
 
 # Crear un objeto SharedData para habilitar filtros dinámicos
 shared_data <- SharedData$new(df_long)
 
 # Filtro interactivo por sujeto obligado
-filtro_so <- filter_select(
+filtro_so_unico <- filter_select(
   id = "sujeto_obligado_filter",
   label = "Sujeto Obligado",
-  sharedData = shared_data,
+  sharedData = shared_data, 
+  multiple = FALSE, 
+  allLevels = FALSE,
   group = ~sujeto_obligado
 )
 
@@ -33,6 +37,7 @@ grafico_serie_tiempo <- plot_ly(shared_data) %>%
     x = ~periodo_abreviado,  # Usar las etiquetas abreviadas
     y = ~valor,
     color = ~tipo_indice,  # Diferencia los segmentos por tipo de índice (TA y TP)
+    colors = c("Transparencia Activa" = "#D81B60", "Transparencia Proactiva" = "#1E88E5"),  # Colores manuales
     type = "bar",
     text = ~paste(
       "Sujeto Obligado:", sujeto_obligado,
@@ -51,7 +56,7 @@ grafico_serie_tiempo <- plot_ly(shared_data) %>%
     yaxis = list(title = "Valor Total (IT)")
   )
 
-# Armar tarjeta con el gráfico, filtro y botón de descarga
+# Armar tarjeta con el gráfico y el filtro
 tarjeta_serie_tiempo <- card(
   card_header("Agencia de Acceso a la Información Pública / Índice de Transparencia (IT)"),
   layout_sidebar(
@@ -60,14 +65,8 @@ tarjeta_serie_tiempo <- card(
       title = "Filtros",
       width = "25%",
       layout_columns(
-        filtro_so  # Filtro interactivo
-      ),
-      tags$button(
-        "Descargar gráfico",
-        class = "btn btn-primary",
-        style = "margin-top: 10px;",
-        onclick = "Plotly.downloadImage(document.getElementById('grafico'), {format: 'png', filename: 'grafico_filtrado'})"
-      )  # Botón de descarga
+        filtro_so_unico  # Filtro interactivo
+      )
     ),
     tagList(
       grafico_serie_tiempo %>% htmltools::browsable() %>% tagAppendAttributes(id = "grafico")
@@ -75,13 +74,14 @@ tarjeta_serie_tiempo <- card(
   )
 )
 
-# Renderizar la tarjeta
+# Renderizar la tarjeta con preselección en el filtro
 browsable(
   tagList(
     tags$head(
-      tags$title("Barras Apiladas con Botón de Descarga"),
+      tags$title("Barras Apiladas con Preselección"),
       tags$script(HTML("
         $(document).ready(function() {
+          // Preseleccionar 'Agencia de Planificación (APLA)' en el filtro
           document.getElementById('sujeto_obligado_filter').getElementsByClassName('selectized')[0].selectize.setValue('Agencia de Planificación (APLA)', false);
         });
       "))  # Incluir el JavaScript para preselección
