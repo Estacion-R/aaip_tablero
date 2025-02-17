@@ -1,109 +1,60 @@
-# Carga de paquetes
+# Cargar librerías necesarias
 library(plotly)
 library(dplyr)
-library(tidyr)
 library(crosstalk)
-library(htmltools)
-library(bslib)
 
-# Datos con casos reales y ajustados
-df_transparencia_serie <- data.frame(
-  periodo = rep(c("2do Trimestre 2024 (Abril - Junio)",
-                  "4to Trimestre 2024 (Octubre - Diciembre)",
-                  "1er Trimestre 2025 (Enero - Marzo)"), each = 1),
-  periodo_tot = rep(c("2024_2", "2024_4", "2025_1"), each = 1),
-  periodo_anio = c("2024", "2024", "2025"),
-  periodo_mes = c("2", "4", "1"),
-  tipo_de_so = rep("Entes del Sector Público Nacional", 3),
-  sujeto_obligado = rep("Agencia de Planificación (APLA)", 3),
-  it = c(44.2, 43.5, 77.9), # Índice total (altura de la barra)
-  ta = c(43.3, 43.1, 84.1), # Categoría TA
-  tp = c(51.7, 47.2, 22.2)  # Categoría TP
+# Datos de ejemplo
+df_transparencia <- data.frame(
+  periodo_abreviado = c("2024 - T2", "2024 - T3", "2025 - T1", "2025 - T2"),
+  sujeto_obligado = c("Administración de Parques Nacionales", "Administración de Parques Nacionales", 
+                      "Administración de Parques Nacionales", "Administración de Parques Nacionales"),
+  it = c(82, 76, 79, 85) # Índice de Transparencia
 )
 
-# Crear etiquetas abreviadas para el período
-df_transparencia_serie <- df_transparencia_serie %>%
-  mutate(periodo_abreviado = case_when(
-    periodo == "2do Trimestre 2024 (Abril - Junio)" ~ "2024 - T2",
-    periodo == "4to Trimestre 2024 (Octubre - Diciembre)" ~ "2024 - T4",
-    periodo == "1er Trimestre 2025 (Enero - Marzo)" ~ "2025 - T1",
-    TRUE ~ periodo
-  ))
+# Crear objeto de datos compartidos para filtros
+shared_data <- SharedData$new(df_transparencia)
 
-# Transformar los datos para apilar `TA` y `TP`
-df_long <- df_transparencia_serie %>%
-  pivot_longer(cols = c(ta, tp), names_to = "tipo_indice", values_to = "valor")
-
-# Crear un objeto SharedData para habilitar filtros dinámicos
-shared_data <- SharedData$new(df_long)
-
-# Filtro interactivo por sujeto obligado
+# Filtro de selección de sujeto obligado
 filtro_so <- filter_select(
   id = "sujeto_obligado_filter",
   label = "Sujeto Obligado",
-  sharedData = shared_data,
+  sharedData = shared_data, 
+  multiple = FALSE, 
+  allLevels = FALSE,
   group = ~sujeto_obligado
 )
 
-# Gráfico interactivo de barras apiladas con etiquetas abreviadas para el eje x
-grafico_serie_tiempo <- plot_ly(shared_data) %>%
+# Crear el gráfico estilo lollipop (sin línea de conexión)
+grafico_it_lollipop <- plot_ly(shared_data) %>%
+  # Líneas verticales (Lollipop)
+  add_segments(
+    x = ~periodo_abreviado, 
+    xend = ~periodo_abreviado, 
+    y = 0, 
+    yend = ~it,
+    line = list(color = "#008585", width = 2, dash = "solid"),  # Líneas minimalistas
+    hoverinfo = "none"
+  ) %>%
+  # Puntos (Lollipop) con etiquetas
   add_trace(
-    x = ~periodo_abreviado,  # Usar las etiquetas abreviadas
-    y = ~valor,
-    color = ~tipo_indice,  # Diferencia los segmentos por tipo de índice (TA y TP)
-    type = "bar",
-    text = ~paste(
-      "Sujeto Obligado:", sujeto_obligado,
-      "<br>Período:", periodo_abreviado,
-      "<br>Tipo de Índice:", tipo_indice,
-      "<br>Valor del Índice (IT):", round(it, 2),
-      "<br>Segmento:", round(valor, 2)
-    ),
+    x = ~periodo_abreviado, 
+    y = ~it, 
+    type = "scatter",
+    mode = "markers+text",  # Puntos con etiquetas
+    marker = list(size = 10, color = "#008585"),  # Puntos en verde principal
+    text = ~it,  # Mostrar el valor del índice
+    textposition = "top center",  # Posición de la etiqueta sobre el punto
+    textfont = list(size = 12, color = "#333333"),  # Estilo de la etiqueta
     hoverinfo = "text",
-    textposition = "none"  # Elimina texto sobre las columnas
+    hovertext = ~paste("Período:", periodo_abreviado, "<br>Índice de Transparencia:", it)
   ) %>%
   layout(
-    barmode = "stack",  # Barras apiladas
-    title = "Composición por Sujeto Obligado, Período y Tipo de Índice",
+    title = "Evolución del Índice de Transparencia por Sujeto Obligado",
     xaxis = list(title = "Período"),
-    yaxis = list(title = "Valor Total (IT)")
+    yaxis = list(title = "Índice de Transparencia (IT)", range = c(0, 100)),
+    showlegend = FALSE,
+    plot_bgcolor = "white"
   )
 
-# Armar tarjeta con el gráfico, filtro y botón de descarga
-tarjeta_serie_tiempo <- card(
-  card_header("Agencia de Acceso a la Información Pública / Índice de Transparencia (IT)"),
-  layout_sidebar(
-    fillable = TRUE,
-    sidebar = sidebar(
-      title = "Filtros",
-      width = "25%",
-      layout_columns(
-        filtro_so  # Filtro interactivo
-      ),
-      tags$button(
-        "Descargar gráfico",
-        class = "btn btn-primary",
-        style = "margin-top: 10px;",
-        onclick = "Plotly.downloadImage(document.getElementById('grafico'), {format: 'png', filename: 'grafico_filtrado'})"
-      )  # Botón de descarga
-    ),
-    tagList(
-      grafico_serie_tiempo %>% htmltools::browsable() %>% tagAppendAttributes(id = "grafico")
-    )
-  )
-)
-
-# Renderizar la tarjeta
-browsable(
-  tagList(
-    tags$head(
-      tags$title("Barras Apiladas con Botón de Descarga"),
-      tags$script(HTML("
-        $(document).ready(function() {
-          document.getElementById('sujeto_obligado_filter').getElementsByClassName('selectized')[0].selectize.setValue('Agencia de Planificación (APLA)', false);
-        });
-      "))  # Incluir el JavaScript para preselección
-    ),
-    tarjeta_serie_tiempo
-  )
-)
+# Mostrar gráfico
+grafico_it_lollipop

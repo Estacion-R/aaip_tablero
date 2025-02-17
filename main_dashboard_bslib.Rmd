@@ -1,18 +1,44 @@
 ---
-title: "Índice de Transparencia - AAIP"
+title: ""
 output:
   html_document:
     theme: 
       version: 5
-      bootswatch: minty
-    css: "estilo/estilo_tablero.css"
+    css: "estilo/estilo_tablero_bslib.css"
     logo: estilo/img/logoAAIP.svg
 ---
 
-
 ```{r setup, include=FALSE}
+library(bslib)
+library(yaml)  # Para leer el archivo YAML
+library(here)
+
+# Leer `_brand.yml`
+brand_data <- yaml::read_yaml(here("_brand.yml"))
+
+# Extraer colores del YAML
+colors <- brand_data$color$palette
+
+# Extraer tipografías
+typography <- brand_data$typography
+
+# Aplicar tema con `bs_theme()`
+theme <- bs_theme(
+  base_font = typography$base$family,
+  heading_font = typography$headings$family,
+  primary = colors$`verde-principal`,
+  secondary = colors$`verde-secundario`,
+  success = colors$celeste,
+  info = colors$magenta,
+  warning = colors$naranja,
+  danger = colors$violeta,
+  fg = colors$black,
+  bg = colors$white
+)
+
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 options(scipen = 999)
+
 ```
 
 
@@ -23,6 +49,9 @@ tool_v <- "0.999999"
 
 # Librerías utilizadas
 source(here("R/00_librerias.R"))
+
+# Funciones necesarias
+source(here("R/00-funciones.R"))
 
 # Lectura de base de datos
 source(here("R/01_extraer.R"))
@@ -50,44 +79,45 @@ source(here("doc_pages/modulos/mod_tabla_x_dimension.R"))
 ```{r}
 page_navbar(
   title = "Índice de Transparencia",
+  #theme = theme,  # Aquí aplicamos `_brand.yml`,
   
   nav_panel(
     "Resultados",
     div(
       class = "container-fluid",
       
-    navset_card_tab(
-    full_screen = FALSE,  # Evita que el panel esté encerrado en una tarjeta
-    
-    nav_panel("Resultado global",
-              height = 450,
-              tarjeta_global_trim1
-    ),
-    
-    nav_panel("Por sujeto obligado",
-              layout_column_wrap(
-                width = 1,
-                tarjeta_x_so
-              )
-    ),
-    
-    nav_panel("Por dimensión",
-              layout_column_wrap(
-                width = 1,
-                tarjeta_x_dim
-              )
-    ),
-    
-    nav_panel("Evolución en el tiempo",
-              layout_column_wrap(
-                width = 1,
-                tarjeta_serie_tiempo
-              ))
-  )
+      navset_tab(
+        #full_screen = FALSE,  # Evita que el panel esté encerrado en una tarjeta
+        
+        nav_panel("Resultado global",
+                  height = 450,
+                  tarjeta_global
+        ),
+        
+        nav_panel("Por sujeto obligado",
+                  layout_column_wrap(
+                    width = 1,
+                    tarjeta_x_so
+                  )
+        ),
+        
+        nav_panel("Por dimensión",
+                  layout_column_wrap(
+                    width = 1,
+                    tarjeta_x_dim
+                  )
+        ),
+        
+        nav_panel("Evolución en el tiempo",
+                  layout_column_wrap(
+                    width = 1,
+                    tarjeta_serie_tiempo
+                  ))
+      )
     )
-),
-
-nav_panel("Metodología")
+  ),
+  
+  nav_panel("Metodología")
 )
 
 ```

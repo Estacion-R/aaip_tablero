@@ -3,19 +3,19 @@
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##                              Run the Dashboard                           ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-tool_v <- "0.1.9999"
+tool_v <- "0.2.9999"
 
 xfun::Rscript_call(
   rmarkdown::render,
   list(
-    input = 'main_dashboard.Rmd', 
+    input = 'main_dashboard_bslib.Rmd', 
        #output_format = 'flex_dashboard',
        output_file = glue::glue('Índice de Transparencia - AAIP - {tool_v}.html'),
        output_dir = 'output_dashboard'
     )
 )
 
- 
+
 # library(magick)
 # logo <- image_read("style/img/c40_logo.svg")
 # logo_scaled <- image_scale(logo,'45x')

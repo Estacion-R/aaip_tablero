@@ -1,0 +1,66 @@
+meta:
+  name:
+    short: AAIP
+    full: Agencia de Acceso a la Información Pública
+  link:
+    home: https://www.argentina.gob.ar/aaip
+    linkedin: https://www.linkedin.com/company/aaip
+    twitter: https://twitter.com/aaipargentina
+
+logo:
+  images:
+    header: estilo/img/logoAAIP.svg
+  small: header
+  medium: header
+  large: header
+
+color:
+  palette:
+    white: "#FFFFFF"
+    black: "#151515"
+    verde-principal: "#008585"
+    verde-secundario: "#28af8c"
+    gris: "#868686"
+    naranja: "#eb9547"
+    magenta: "#e4418e"
+    violeta: "#6b579e"
+    celeste: "#23ace4"
+  
+  foreground: black
+  background: white
+  primary: verde-principal
+  secondary: verde-secundario
+  success: celeste
+  info: magenta
+  warning: naranja
+  danger: violeta
+  light: white
+  dark: gris
+
+typography:
+  fonts:
+    - family: Roboto
+      source: google
+      weight: [400, 500, 700]
+      style: [normal, italic]
+    - family: Roboto Slab
+      source: google
+      weight: [600, 900]
+      style: [normal, italic]
+
+  base:
+    family: Roboto
+    weight: 400
+    size: 14px
+    line-height: 1.5
+
+  headings:
+    family: Roboto Slab
+    weight: 600
+    line-height: 1.2
+    color: primary
+
+  link:
+    weight: 600
+    color: primary
+    decoration: underline

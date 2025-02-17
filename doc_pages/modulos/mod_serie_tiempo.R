@@ -10,19 +10,12 @@ library(bslib)
 df_transparencia_serie <- df_transparencia %>% 
   mutate(periodo_abreviado = paste0(periodo_anio, " - T", periodo_mes))
 
-# Transformar los datos para apilar `ta` y `tp`
-df_long <- df_transparencia_serie %>%
-  pivot_longer(cols = c(ta, tp), names_to = "tipo_indice", values_to = "valor") %>% 
-  mutate(
-    tipo_indice = factor(tipo_indice, levels = c("tp", "ta"),
-                         labels = c("Transparencia Proactiva", "Transparencia Activa"))
-  )
 
 # Crear un objeto SharedData para habilitar filtros dinámicos
-shared_data <- SharedData$new(df_long)
+shared_data <- SharedData$new(df_transparencia_serie)
 
-# Filtro interactivo por sujeto obligado
-filtro_so_unico <- filter_select(
+# Filtro de selección de sujeto obligado
+filtro_so <- filter_select(
   id = "sujeto_obligado_filter",
   label = "Sujeto Obligado",
   sharedData = shared_data, 
@@ -31,29 +24,36 @@ filtro_so_unico <- filter_select(
   group = ~sujeto_obligado
 )
 
-# Gráfico interactivo de barras apiladas con etiquetas abreviadas para el eje x
-grafico_serie_tiempo <- plot_ly(shared_data) %>%
+# Crear el gráfico estilo lollipop (sin línea de conexión)
+grafico_it_lollipop <- plot_ly(shared_data) %>%
+  # Líneas verticales (Lollipop)
+  add_segments(
+    x = ~periodo_abreviado, 
+    xend = ~periodo_abreviado, 
+    y = 0, 
+    yend = ~it,
+    line = list(color = "#008585", width = 2, dash = "solid"),  # Líneas minimalistas
+    hoverinfo = "none"
+  ) %>%
+  # Puntos (Lollipop) con etiquetas
   add_trace(
-    x = ~periodo_abreviado,  # Usar las etiquetas abreviadas
-    y = ~valor,
-    color = ~tipo_indice,  # Diferencia los segmentos por tipo de índice (TA y TP)
-    colors = c("Transparencia Activa" = "#D81B60", "Transparencia Proactiva" = "#1E88E5"),  # Colores manuales
-    type = "bar",
-    text = ~paste(
-      "Sujeto Obligado:", sujeto_obligado,
-      "<br>Período:", periodo_abreviado,
-      "<br>Tipo de Índice:", tipo_indice,
-      "<br>Valor del Índice (IT):", round(it, 2),
-      "<br>Segmento:", round(valor, 2)
-    ),
+    x = ~periodo_abreviado, 
+    y = ~it, 
+    type = "scatter",
+    mode = "markers+text",  # Puntos con etiquetas
+    marker = list(size = 10, color = "#008585"),  # Puntos en verde principal
+    text = ~it,  # Mostrar el valor del índice
+    textposition = "top center",  # Posición de la etiqueta sobre el punto
+    textfont = list(size = 12, color = "#333333"),  # Estilo de la etiqueta
     hoverinfo = "text",
-    textposition = "none"  # Elimina texto sobre las columnas
+    hovertext = ~paste("Período:", periodo_abreviado, "<br>Índice de Transparencia:", it)
   ) %>%
   layout(
-    barmode = "stack",  # Barras apiladas
-    title = "Composición por Sujeto Obligado, Período y Tipo de Índice",
+    title = "Evolución del Índice de Transparencia por Sujeto Obligado",
     xaxis = list(title = "Período"),
-    yaxis = list(title = "Valor Total (IT)")
+    yaxis = list(title = "Índice de Transparencia (IT)", range = c(0, 100)),
+    showlegend = FALSE,
+    plot_bgcolor = "white"
   )
 
 # Armar tarjeta con el gráfico y el filtro
@@ -65,27 +65,29 @@ tarjeta_serie_tiempo <- card(
       title = "Filtros",
       width = "25%",
       layout_columns(
-        filtro_so_unico  # Filtro interactivo
+        filtro_so  # Filtro interactivo
       )
     ),
     tagList(
-      grafico_serie_tiempo %>% htmltools::browsable() %>% tagAppendAttributes(id = "grafico")
+      grafico_it_lollipop %>% 
+        htmltools::browsable() %>% 
+        tagAppendAttributes(id = "grafico")
     )
   )
 )
 
 # Renderizar la tarjeta con preselección en el filtro
-browsable(
-  tagList(
-    tags$head(
-      tags$title("Barras Apiladas con Preselección"),
-      tags$script(HTML("
-        $(document).ready(function() {
-          // Preseleccionar 'Agencia de Planificación (APLA)' en el filtro
-          document.getElementById('sujeto_obligado_filter').getElementsByClassName('selectized')[0].selectize.setValue('Agencia de Planificación (APLA)', false);
-        });
-      "))  # Incluir el JavaScript para preselección
-    ),
-    tarjeta_serie_tiempo
-  )
-)
+# browsable(
+#   tagList(
+#     tags$head(
+#       tags$title("Barras Apiladas con Preselección"),
+#       tags$script(HTML("
+#         $(document).ready(function() {
+#           // Preseleccionar 'Agencia de Planificación (APLA)' en el filtro
+#           document.getElementById('sujeto_obligado_filter').getElementsByClassName('selectized')[0].selectize.setValue('Agencia de Planificación (APLA)', false);
+#         });
+#       "))  # Incluir el JavaScript para preselección
+#     ),
+#     tarjeta_serie_tiempo
+#   )
+# )

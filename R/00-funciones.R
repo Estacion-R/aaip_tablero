@@ -60,6 +60,9 @@ armar_tabla_x_so <- function(df, tabla_nro){
                                    fill_color = color_celeste,
                                    background = "lightgrey"))
     ),
+    columnGroups = list(
+      colGroup(name = "Subíndices", columns = c("ta", "tp"))
+    ),
     # Estilo de la tabla
     style = list(fontFamily = "Roboto", fontSize = "0.875rem"),
     borderless = TRUE,
@@ -71,12 +74,12 @@ armar_tabla_x_so <- function(df, tabla_nro){
     defaultSorted = list(it = "desc", ta = "desc", tp = "desc", tipo_de_so = "asc", sujeto_obligado = "asc"),
     filterable = FALSE,
     showPageSizeOptions = TRUE,
-    theme = reactableTheme(
-      headerStyle = list(
-        "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
-        "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
-        borderColor = "#555")
-    ),
+    # theme = reactableTheme(
+    #   headerStyle = list(
+    #     "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
+    #     "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
+    #     borderColor = "#555")
+    # ),
     elementId = glue::glue("indice-tabla-{tabla_nro}")
   )
 }
@@ -187,3 +190,61 @@ armar_dona <- function(value, font_family, text_size = 12) {
              y = 0)
   
 }
+
+
+
+tarjeta_indice_global <- function(titulo, 
+                               valor_indice_actual, 
+                               valor_indice_anterior, 
+                               periodo_anterior, 
+                               periodo_actual) {
+  
+  diferencia_periodo_ant_porc <- (valor_indice_actual - valor_indice_anterior) / valor_indice_anterior * 100
+  
+  ### Define color and sentence for comparisson between emissions target and actuals
+  if(valor_indice_actual >= 0 & valor_indice_actual <= 10){
+    target_color <- "green"
+    #text_target_status <- "above emissions target (on target)"
+    
+  } else if(valor_indice_actual < 0) {
+    target_color <- c40_colors("green")
+    #text_target_status <- "below emissions target (on target)"
+    
+  } else if(valor_indice_actual >= 10 & valor_indice_actual <= 20){
+    target_color <- "yellow"
+    #text_target_status <- "above emissions target (close to target)"
+    
+  } else if(valor_indice_actual > 20){
+    target_color <- "red"
+    #text_target_status <- "above emissions target (off target)"
+  }
+  
+    texto_valor_indice_actual <- paste0(
+      round(valor_indice_actual, 1), 
+      "<span style='font-size: 14px;'>/100", "</span>")
+  
+  div(
+    style = "margin: 15px; width: 250px;",
+    h2(titulo),
+    h3(paste0("Período ", periodo_actual), style = "font-size: 16px; color: #666; margin-bottom: 5px;"),
+    
+    h1(
+      HTML(texto_valor_indice_actual), 
+      style = "font-size: 32px; font-weight: bold; margin: 10px 0; color: #333;"
+    ),
+    div(
+      style = paste0("color: ", ifelse(sign(diferencia_periodo_ant_porc) == 1, "red", "green"), "; font-size: 14px;"),
+      HTML(paste0(ifelse(sign(diferencia_periodo_ant_porc) == 1, "▲ ", "▼ "), round(diferencia_periodo_ant_porc, 1), "% vs ", periodo_anterior))
+    )
+    # div(
+    #   style = paste0("color: ", ifelse(sign(percent_against_base) == 1, c40_colors("red"), c40_colors("green")), "; font-size: 14px;"),
+    #   HTML(paste0(ifelse(sign(percent_against_base) == 1, "▲ ", "▼ "), round(percent_against_base, 1 ), "% vs ", year_base))
+    # ),
+    # div(
+    #   style = paste0("color: ", target_color, "; font-size: 14px;"),
+    #   HTML("🎯 ", paste0(round(value_target_latest, 1 ), "% ", text_target_status))
+    # )
+  )
+}
+
+#browsable(tarjeta_indice_global("Índice de Transparencia", 80.5, 78.2, "2020", "2021-T1"))
