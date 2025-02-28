@@ -1,200 +1,170 @@
+/* -------------------------------------------------- */
+/* 🌟 Ajustes Globales */
+/* -------------------------------------------------- */
 
-html {
-  scroll-behavior: smooth;
+:root {
+  --verde-principal: #008585;
+  --verde-secundario: #28af8c;
+  --gris: #868686;
+  --naranja: #eb9547;
+  --magenta: #e4418e;
+  --violeta: #6b579e;
+  --celeste: #23ace4;
 }
 
-
-/*
-h2 {
-  font-size: 20pt;
-  color: #23BCED;
-}
-*/
-
-
-
-
-
-
-/*Modifico el logo de la barra de navegación*/
-/* Reduce the size of the logo */
-.navbar-brand img {
-  max-height: 30px !important; /* Adjust height as needed */
-  width: auto !important;       /* Keep proportions */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: var(--gris);
+  background-color: #f8f9fa; /* Fondo neutro */
 }
 
-/* Ensure navbar height is reduced */
-.navbar {
-  min-height: 45px !important; /* Reduce the height */
-  padding: 5px 10px !important; /* Reduce padding */
-}
-
-/* Ensure logo does not push the title down */
-.navbar-header {
-  display: flex !important;
-  align-items: center !important;
-}
-
-/* Move title above the tabs */
-.navbar .navbar-brand {
-  flex-grow: 1;
-  text-align: left; /* Keep the title aligned left */
-  font-size: 18px; /* Adjust title size */
-}
-
-
-
-
-
-
-
-/* Default styling for navbar tabs */
-.navbar-nav > li > a {
-  color: white !important; /* Default text color */
-  background-color: #008585 !important; /* Main green */
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Hover effect for tabs */
-.navbar-nav > li > a:hover {
-  background-color: #28af8c !important; /* Secondary green */
-  color: white !important;
-  font-weight: bold; /* Optional: makes it more prominent */
-}
-
-/* Active tab styling */
-.navbar-nav > li.active > a {
-  background-color: #28af8c !important; /* Orange */
-  color: white !important;
-  font-weight: bold;
-  border-bottom: 3px solid #28af8c; /* Magenta bottom border for emphasis */
-}
-
-/* Hover effect for active tab */
-.navbar-nav > li.active > a:hover {
-  background-color: #28af8c !important; /* Magenta on hover */
-  color: white !important;
-}
-
-/* Buttons inside the dashboard */
-.btn {
-  background-color: #23ace4 !important; /* Light blue */
-  color: white !important;
-  border: none !important;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Hover effect for buttons */
-.btn:hover {
-  background-color: #6b579e !important; /* Violet */
-  color: white !important;
-}
-
-/* Sidebar and other tabs hover effects */
-.sidebar .nav > li > a:hover {
-  background-color: #868686 !important; /* Grey for sidebar */
-  color: white !important;
-}
-
-/* Adjust card hover effects */
-.card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-
-
-/* General Style for nav_panel() */
-.nav-tabs {
-  background-color: #008585 !important; /* Main green */
-  border-bottom: 3px solid #28af8c !important; /* Secondary green border */
-  padding: 5px 0;
-}
-
-/* Style for each tab (nav_panel) */
-.nav-tabs .nav-item .nav-link {
-  color: white !important; /* White text */
-  background-color: transparent !important; /* Transparent background */
-  padding: 12px 15px;
-  border: none !important;
-  transition: all 0.3s ease-in-out;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-/* Hover effect for tabs */
-.nav-tabs .nav-item .nav-link:hover {
-  background-color: #28af8c !important; /* Secondary green */
-  color: white !important;
-  border-radius: 5px;
-}
-
-/* Active tab styling */
-.nav-tabs .nav-item .nav-link.active {
-  background-color: #28af8c !important; /* Orange for active tab */
-  color: white !important;
-  border-radius: 5px 5px 0 0;
-  font-weight: bold;
-  border-bottom: 3px solid #28af8c !important; /* Magenta bottom border */
-}
-
-/* Hover effect for active tab */
-.nav-tabs .nav-item .nav-link.active:hover {
-  background-color: #28af8c !important; /* Magenta when hovered */
-  color: white !important;
-}
-
-/* Styling for the panel content */
-.tab-content {
-  background-color: white !important;
-  padding: 20px;
-  border: 2px solid #868686; /* Grey border */
-  border-radius: 5px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Optional: Adjust navbar height */
-.navbar {
-  min-height: 50px !important;
-  padding: 5px 10px !important;
-}
-
-/* Optional: Smooth transition effect for switching tabs */
-.nav-tabs .nav-item {
-  transition: transform 0.2s ease-in-out;
-}
-
-.nav-tabs .nav-item:hover {
-  transform: scale(1.05); /* Slight increase in size on hover */
-}
-
-/* Elimina el fondo y bordes del contenedor de tabs */
-.navset-card-tab {
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-/* Ajusta la apariencia de los tabs para que no tengan una tarjeta de fondo */
-.navset-card-tab .card {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
+.container-fluid {
+  width: 100% !important;
+  max-width: 100% !important;
   padding: 0 !important;
 }
 
-/* Asegura que el contenido de cada tab se vea limpio */
-.tab-content {
-  background: white !important;
-  padding: 15px !important;
-  border-radius: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
+/* -------------------------------------------------- */
+/* 🌟 Estilos para el Menú Principal (`page_navbar`) */
+/* -------------------------------------------------- */
+
+/* Contenedor del navbar */
+.navbar-nav {
+  display: flex;
+  align-items: center;
 }
 
-/* Evita que los paneles tengan doble borde */
-.card-body {
-  background: transparent !important;
+/* Estilos de los enlaces del navbar */
+.navbar-nav .nav-link {
+  color: var(--verde-secundario) !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  text-decoration: none !important;
+  padding: 12px 20px !important;
+  transition: all 0.3s ease-in-out;
+  border-bottom: 3px solid transparent !important;
+}
+
+/* Hover en las pestañas del navbar */
+.navbar-nav .nav-link:hover {
+  color: var(--verde-secundario) !important;
+  border-bottom: 3px solid var(--verde-secundario) !important;
+}
+
+/* Pestaña activa del navbar */
+.navbar-nav .nav-link.active {
+  font-weight: bold !important;
+  color: var(--naranja) !important;
+  border-bottom: 3px solid var(--magenta) !important;
+}
+
+/* Ajustar el navbar para que mantenga el formato */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+
+/* ---- 🔹 Pestañas de `navset_card_tab` ---- */
+
+/* Estilo de las pestañas */
+.nav-tabs .nav-link {
+  color: var(--verde-principal) !important; /* Color del texto */
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  text-decoration: none !important; /* Evita subrayados */
+  padding: 10px 15px !important;
+  background-color: transparent !important;
   border: none !important;
-  box-shadow: none !important;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover en pestañas */
+.nav-tabs .nav-link:hover {
+  color: var(--verde-secundario) !important;
+  border-bottom: 3px solid var(--verde-secundario) !important;
+}
+
+/* Pestaña activa */
+.nav-tabs .nav-link.active {
+  font-weight: bold !important;
+  color: var(--naranja) !important;
+  border-bottom: 3px solid var(--magenta) !important;
+  background-color: transparent !important;
+}
+
+/* ---- 🔹 Ajuste de la Caja de Contenido ---- */
+.tab-content {
+  background-color: white !important;
+  padding: 15px !important;
+  border-radius: 5px !important;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* -------------------------------------------------- */
+/* 🌟 Ajustes para las Tarjetas */
+/* -------------------------------------------------- */
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid var(--verde-principal);
+}
+
+.card:hover {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--verde-principal);
+}
+
+/* -------------------------------------------------- */
+/* 🌟 Ajustes para Tablas (`reactable`) */
+/* -------------------------------------------------- */
+
+.reactable {
+  font-size: 14px;
+  border: none !important;
+}
+
+.reactable tr {
+  border-bottom: 1px solid var(--gris);
+}
+
+.reactable tr:hover {
+  background-color: var(--celeste) !important;
+  color: white !important;
+}
+
+/* -------------------------------------------------- */
+/* 🌟 Ajustes para Gráficos */
+/* -------------------------------------------------- */
+
+.plotly, .ggplot {
+  margin-top: 10px;
+}
+
+.js-plotly-plot .plotly .modebar {
+  display: none !important;
+}
+
+.plotly .legend {
+  position: relative !important;
+  text-align: center !important;
+  bottom: 0;
 }

@@ -70,14 +70,11 @@ df_transparencia_dimension <- bind_rows(
   mutate(periodo_mes = parse_number(periodo),
          periodo_anio = str_extract(periodo, "(?<=Trimestre )\\d+"),
          periodo_tot = paste0(periodo_anio, "_", periodo_mes),
-         across(.cols = c(starts_with("periodo"), "tipo_de_so", "sujeto_obligado"), as.factor)) %>% 
+         across(.cols = c(starts_with("periodo"), "tipo_de_so", "sujeto_obligado"), as.factor),
+         dimension_valor = dimension_valor * 100) %>% 
   relocate(periodo_tot, periodo_anio, periodo_mes, .after = periodo, tipo_de_so) %>% 
-  #relocate(it, .after = sujeto_obligado) %>% 
   arrange(periodo_anio, periodo_mes, tipo_de_so, sujeto_obligado, dimension_nombre)
-#   mutate(dimension_nombre = str_remove_all(dimension_nombre, "x"),
-#          dimension_nombre = str_replace(dimension_nombre, "_", " - "),
-#          dimension_nombre = str_replace_all(dimension_nombre, "_", " "),
-#          dimension_nombre = str_to_sentence(dimension_nombre))
+
 
 # Armo df para generar interacción con los filtros
 shared_df_transparencia_x_dim <- SharedData$new(df_transparencia_dimension)
